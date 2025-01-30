@@ -13,7 +13,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(), // Load HomeScreen with bottom navigation
+      home: HomeScreen(), // Load HomeScreen with Drawer
     );
   }
 }

@@ -8,41 +8,38 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<NavigationController>(
-      init: NavigationController(),
-      builder: (controller) {
-        return Scaffold(
-          appBar: AppBar(title: const Text('Bottom Navigation with GetX')),
-          body: controller.pages[controller.currentIndex.value], // Display active page
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: controller.currentIndex.value,
-            onTap: (index) {
-              controller.changePage(index);
-            },
-            items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-              BottomNavigationBarItem(icon: Icon(Icons.pageview), label: "Page 1"),
-              BottomNavigationBarItem(icon: Icon(Icons.pages), label: "Page 2"),
-            ],
-          ),
-        );
-      },
+    return Scaffold(
+      appBar: AppBar(title: const Text("Drawer Navigation with GetX")),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(color: Colors.blue),
+              child: Text(
+                'Navigation Menu',
+                style: TextStyle(color: Colors.white, fontSize: 24),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Home'),
+              onTap: () => Get.offAll(() => const HomeScreen()), // Go to Home
+            ),
+            ListTile(
+              leading: const Icon(Icons.pageview),
+              title: const Text('Page 1'),
+              onTap: () => Get.to(() => const Page1()), // Go to Page1
+            ),
+            ListTile(
+              leading: const Icon(Icons.pages),
+              title: const Text('Page 2'),
+              onTap: () => Get.to(() => const Page2(), arguments: {'message': 'Hello from Home!'}), // Go to Page2 with message
+            ),
+          ],
+        ),
+      ),
+      body: const Center(child: Text("Welcome to Home Screen", style: TextStyle(fontSize: 22))),
     );
-  }
-}
-
-// Controller to manage bottom navigation state
-class NavigationController extends GetxController {
-  var currentIndex = 0.obs;
-
-  final List<Widget> pages = [
-    const Center(child: Text("Home Screen", style: TextStyle(fontSize: 22))),
-    const Page1(),
-    const Page2(),
-  ];
-
-  void changePage(int index) {
-    currentIndex.value = index;
-    update(); // Refresh UI
   }
 }
